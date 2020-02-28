@@ -1,0 +1,217 @@
+body {
+    margin: 0 3%;
+    background: black;
+}
+
+#app {
+    width: 980px;
+    margin: auto;
+    background: #EEE;
+}
+
+#console {
+    position: fixed;
+    top: 0;
+    height: 200px;
+    width: 302px;
+    margin-left: 680px;
+    text-align: center;
+    color: white;
+    background: black;
+    border: 1px solid grey;
+    z-index: 10;
+}
+
+#waveCanvas {
+    height: 150px;
+    white-space: nowrap;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#messages {
+    height: 160px;
+    white-space: nowrap;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#masterTools {
+    position: fixed;
+    top: 0;
+    height: 200px;
+    width: 680px;
+    text-align: center;
+    background: #EEE;
+    border: 1px solid grey;
+    z-index: 10;
+}
+
+#volume {
+    height: 42px;
+}
+
+#songs {
+    text-align: center;
+}
+
+#trackControl {
+    float: left;
+    width: 378px;
+    overflow: hidden;
+}
+
+#tracks {
+    width: 100%;
+    margin-top: -1px;
+}
+
+.trackBox {
+    vertical-align: middle;
+    border: 1px solid grey;
+}
+
+#canvass {
+    margin-left: 380px;
+}
+
+#myCanvas {
+    background: black;
+}
+
+#scroll {
+    position: absolute;
+    top: 200px;
+    width: 980px;
+    background: #EEE;
+}
+
+.styled-select select {
+    background: #ddd;
+    background: transparent;
+    width: 240px;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    -webkit-appearance: none;
+}
+
+.styled-select {
+    width: 240px;
+    height: 34px;
+    overflow: hidden;
+    background: url(../img/down_arrow_select.jpg) no-repeat right #ddd;
+    border: 1px solid #ccc;
+}
+
+button {
+    height: 42px;
+    width: 42px;
+}
+
+#sound {
+    position: absolute;
+    margin-left: 28px;
+    margin-top: 28px;
+}
+
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+    color: #000;
+    cursor: default;
+    background: #EEE;
+    border: 1px solid #000;
+    border-bottom-color: transparent;
+}
+
+.nav {
+    margin-bottom: 0;
+}
+
+a[data-toggle=tab] {
+    color: #EEE;
+    text-decoration: none;
+}
+
+.pisteProgress {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-1);
+    margin-left: -30px;
+    height: 20px;
+    margin-top: 22px;
+}
+
+.knobDiv {
+    float: right;
+}
+
+.activated {
+    color: green;
+    border: 3px solid green;
+}
+
+.volumeSlider {
+    margin-left: 20px;
+    width: 170px;
+}
+
+/***** for sliders *****/
+
+body {
+    margin-left: 3%;
+}
+
+.touch {
+    width: 40%;
+}
+
+.custom {
+    width: 60%;
+    -webkit-appearance: none !important;
+    height: 15px;
+    border-radius: 8px;
+    -webkit-appearance: none !important;
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px #333;
+    background-image: linear-gradient(to right, lightGreen, blue 100%, orange);
+    transition: background 450ms;
+}
+
+/* Change the Slider Button Color Here */
+
+.custom::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background: #AAA;
+    background-image: linear-gradient(to bottom, #EEE, #AAA);
+    border: 1px solid #999;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+}
+
+.custom::-moz-range-thumb {
+    background: #AAA;
+    background-image: linear-gradient(to bottom, #EEE, #AAA);
+    border: 1px solid #999;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+}
+
+.custom::-webkit-slider-thumb:before {
+    background: yellow;
+}
+
+/* ONLY applicable if you want the bubble above the slider */
+
+output {
+    width: 100px;
+    height: 40px;
+    font-size: 2em;
+}
