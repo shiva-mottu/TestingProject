@@ -1,7 +1,6 @@
 var express = require("express");
 const fs = require("fs");
 let fsExtra = require("fs-extra");
-let {PythonShell} = require('python-shell');
 const youtubedl = require('youtube-dl');
 var multer  = require('multer');
 const  path = require("path");
@@ -111,33 +110,36 @@ const ChildProcessScript = function(fileName,stems){
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-async function lsExample() {
+async function spleeter() {
   const { stdout, stderr } = await exec(spleeter_cmd);
   console.log('stdout:', stdout);
   console.error('stderr:', stderr);
 }
-lsExample();
+//spleeter();
+
+
+console.log("spawn method called")
+const { spawn } = require('child_process');
+cmd =  [ "-m", "spleeter","separate" ,"-i", "spleeter/songs/"+ fileName,"-p","spleeter:"+stems+"stems" ,"-o", "output"]
+console.log(cmd)
+const ls = spawn("python",cmd );
+
+ls.stdout.on('data', (data) => {
+  console.log('stdout :'+data);
+});
+
+ls.stderr.on('data', (data) => {
+  console.error('stderr: '+data);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+
+
+
 
 }
-
-const PythonScript = function(fileName,stems){
-  var pyshell = new PythonShell('spleeter/run.py');
-  pyshell.send(JSON.stringify([fileName,stems]));
-  pyshell.on('message', function (message) {
-      // received a message sent from the Python script (a simple "print" statement)
-      console.log(message);
-  });
-
-  // end the input stream and allow the process to exit
-  pyshell.end(function (err) {
-    if (err){
-      throw err;
-    };
-
-    console.log('Downloading is finished....');
-  });
-}
-
 
 router.get("/checkOutputFolder", async (req, res) => {
   const folderName = req.query.name;

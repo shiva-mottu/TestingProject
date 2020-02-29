@@ -9,6 +9,9 @@ const middlewares = [
 
 var app = express(),http = require("http"),server = http.createServer(app);
 
+// Config
+const PORT = process.env.PORT,addrIP = process.env.IP;
+
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded());
 
