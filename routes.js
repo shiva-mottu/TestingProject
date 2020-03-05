@@ -31,9 +31,15 @@ upload(req, res, function (err) {
     if (err) {
       // An unknown error occurred when uploading.
       console.log(err);
-      res.send({"status":false})
+      res.redirect("/");
     }
       
+    const config = {
+      onUploadProgress: function(progressEvent) {
+        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        console.log(percentCompleted)
+      }
+    }
       console.log(req.body);
       console.log(req.file);
       let link = req.body.link;
@@ -59,7 +65,6 @@ upload(req, res, function (err) {
                   }
               }
 
-              //PythonScript(fileName,stems)
               ChildProcessScript(fileName,stems)
 
               res.send({
@@ -90,7 +95,7 @@ upload(req, res, function (err) {
 });
 
 const ChildProcessScript = function(fileName,stems){
-  console.log(fileName +":fileName :: :: stems :: "+stems)
+  console.log("fileName :: "+ fileName  +" :: stems :: "+stems)
   spleeter_cmd = "python -m spleeter separate -i spleeter/songs/"+ fileName +" -p spleeter:"+stems+"stems -o output"
 
   /*const ls = exec(spleeter_cmd, function (error, stdout, stderr) {
@@ -120,23 +125,35 @@ async function spleeter() {
 
 console.log("spawn method called")
 const { spawn } = require('child_process');
+
+
+const node = spawn("python",["./test.py",fileName,stems]);
+node.stdout.on('data', (data) => {
+  console.log("stdout:"+ data.toString());
+});
+
+node.stderr.on('data', (data) => {
+  console.log("stderr:"+ data.toString());
+});
+
+
+
+/*
 cmd =  [ "-m", "spleeter","separate" ,"-i", "spleeter/songs/"+ fileName,"-p","spleeter:"+stems+"stems" ,"-o", "output"]
 console.log(cmd)
-const ls = spawn("python",cmd );
+const node = spawn("python",cmd );
 
-ls.stdout.on('data', (data) => {
+node.stdout.on('data', (data) => {
   console.log('stdout :'+data);
 });
 
-ls.stderr.on('data', (data) => {
+node.stderr.on('data', (data) => {
   console.error('stderr: '+data);
 });
 
-ls.on('close', (code) => {
+node.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
-});
-
-
+});*/
 
 
 }
@@ -162,15 +179,22 @@ router.get("/mt5Player", async (req, res) => {
   let destination = TRACKS_PATH+name;
 
   // copy source folder to destination
-  fsExtra.copy(source, destination, function (err) {
+  /*fsExtra.copy(source, destination, function (err) {
     if (err){
         console.log('An error occured while copying the folder.')
         return console.error(err)
     }
     console.log('Copy completed!')
-  });
+  });*/
 
-  res.render("player");
+  fsExtra.move(source, destination, err => {
+    if (err) return console.error(err)
+  
+    console.log('moving completed!')
+    res.render("player");
+  })
+
+  
 });
 
 // player routing
