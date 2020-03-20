@@ -10,7 +10,9 @@ function init(){
         document.getElementById("info").classList.remove('hidden');
         document.getElementById("upload_progressbar").classList.remove('hidden');
 
-        document.getElementById("musicPlayer").classList.add('hidden');
+        //document.getElementById("musicPlayer").classList.add('hidden');
+        document.getElementById("iframediv").classList.add('hidden');
+        //document.getElementById("iframediv").classList.remove('hidden');
         var interval = setInterval(function() {
             progress()
         }, 1500);
@@ -81,13 +83,16 @@ function init(){
                     console.log('Data: '+JSON.stringify(data));
                     if(data.player){
                         clearInterval(myVar);
-                        document.getElementById("musicPlayer").classList.remove('hidden');
-                        $("#playerUrl").attr("href", "/mt5Player?name="+data.name);
-                        
+                        //document.getElementById("musicPlayer").classList.remove('hidden');
+                        //$("#playerUrl").attr("href", "/mt5Player?name="+data.name);
                         clearInterval(interval);
                         document.getElementById("progressbar").classList.add('hidden');
                         document.getElementById("info").classList.add('hidden');
                         document.getElementById("upload_progressbar").classList.add('hidden');
+
+                        document.getElementById("iframediv").classList.remove('hidden');
+
+                        document.getElementById('iframeUrl').src = "/mt5Player?name="+data.name
                     }
                 },
                 error : function(request,error)
@@ -98,11 +103,5 @@ function init(){
             });
     }
 }
-
-
-
-
-
-
 
 }
