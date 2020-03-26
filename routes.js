@@ -112,7 +112,7 @@ const ChildProcessScript = function(fileName,stems){
     console.log('Child process exited with exit code '+code);
   });*/
 
-const util = require('util');
+/*const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 async function spleeter() {
@@ -120,8 +120,8 @@ async function spleeter() {
   console.log('stdout:', stdout);
   console.error('stderr:', stderr);
 }
-//spleeter();
-
+spleeter();
+*/
 
 console.log("spawn method called")
 const { spawn } = require('child_process');
@@ -172,28 +172,26 @@ router.get("/checkOutputFolder", async (req, res) => {
 
 });
 
+router.get("/musicPlayer",async (req, res) => {
+  const name = req.query.name;
+  res.render('stem_tracks',{name:name});
+
+});
 
 router.get("/mt5Player", async (req, res) => {
   const name = req.query.name;
-  let source = "./output/"+name;
-  let destination = TRACKS_PATH+name;
+  if(typeof(name)!="undefined"){
+    let source = "./output/"+name;
+    let destination = TRACKS_PATH+name;
 
-  // copy source folder to destination
-  /*fsExtra.copy(source, destination, function (err) {
-    if (err){
-        console.log('An error occured while copying the folder.')
-        return console.error(err)
-    }
-    console.log('Copy completed!')
-  });*/
-
-  fsExtra.move(source, destination, err => {
-    if (err) return console.error(err)
-  
-    console.log('moving completed!')
-    res.render("player");
-  })
-
+    fsExtra.move(source, destination, err => {
+      if (err) return console.error(err)
+      //res.render("player");
+      res.render('stem_tracks',{name:name});
+    })
+  }else{
+    res.send();
+  }
   
 });
 
