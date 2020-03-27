@@ -46,11 +46,8 @@ function getSongName(folderName){
             "name": element.name
           })
         }
-        console.log(element.name);
-        console.log(element.sound);
+        
       });
-
-      console.log(trackList);
 
       playlist.load(trackList).then(function() {
         //can do stuff with the playlist.
