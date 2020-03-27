@@ -172,12 +172,6 @@ router.get("/checkOutputFolder", async (req, res) => {
 
 });
 
-router.get("/musicPlayer",async (req, res) => {
-  const name = req.query.name;
-  res.render('stem_tracks',{name:name});
-
-});
-
 router.get("/mt5Player", async (req, res) => {
   const name = req.query.name;
   if(typeof(name)!="undefined"){
@@ -187,7 +181,8 @@ router.get("/mt5Player", async (req, res) => {
     fsExtra.move(source, destination, err => {
       if (err) return console.error(err)
       //res.render("player");
-      res.render('stem_tracks',{name:name});
+      //res.render('stem_tracks',{name:name});
+      res.render('web_audio',{name:name});
     })
   }else{
     res.send();
