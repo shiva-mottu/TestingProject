@@ -15,43 +15,81 @@ var playlist = WaveformPlaylist.init({
   zoomLevels: [500, 1000, 3000, 5000]
 });
 
-
-
 function getSongName(folderName){
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', "track/"+folderName, true);
+  xhr.open('GET', "track", true);
 
-  xhr.onload = function (e) {
-      var songTracks = JSON.parse(this.response);
+  // Menu for song selection
+  var s = $("<select id='songSelect'/>");
+  s.appendTo("#songs");
 
+
+  s.change(function (e) {
+      var trackName = $(this).val();
       var trackList = [];
-      songTracks.instruments.forEach(element => {
-        if(element.name == "vocals"){
-          trackList.push({
-            "src": "multitrack/"+folderName+"/"+element.sound,
-            "name": element.name,
-            "gain": 0.75,
-            "muted": false,
-            "soloed": false
-          })
-        }else if(element.name == "piano"){
-          trackList.push({
-            "src": "multitrack/"+folderName+"/"+element.sound,
-            "name": element.name,
-            "gain": 1
-          })
-        }else{
-          trackList.push({
-            "src": "multitrack/"+folderName+"/"+element.sound,
-            "name": element.name
-          })
-        }
-        
+      console.log("You chose : " + trackName);
+
+      document.getElementById("playlist").innerHTML = "";
+      playlist = WaveformPlaylist.init({
+        samplesPerPixel: 1000,
+        waveHeight: 100,
+        container: document.getElementById("playlist"),
+        timescale: true,
+        state: 'cursor',
+        colors: {
+          waveOutlineColor: '#E0EFF1'
+        },
+        controls: {
+          show: true, //whether or not to include the track controls
+          width: 200 //width of controls in pixels
+        },
+        zoomLevels: [500, 1000, 3000, 5000]
       });
 
-      playlist.load(trackList).then(function() {
-        //can do stuff with the playlist.
-      });
+      if (trackName !== "nochoice") {
+          // We load if there is no current song or if the current song is
+          // different than the one chosen
+          var xhr1 = new XMLHttpRequest();
+          xhr1.open('GET', "track/"+trackName, true);
+
+          xhr1.onload = function (e) {
+            var songTracks = JSON.parse(this.response);
+            
+            var tracks = songTracks.instruments;
+            tracks.forEach(function (trackName) {
+              trackList.push({
+                "src": "multitrack/"+folderName+"/"+trackName.sound,
+                "name": trackName.name
+              })
+            });
+
+            playlist.load(trackList).then(function() {
+              //can do stuff with the playlist.
+              console.log("called..")
+           });
+          }
+
+          xhr1.send();
+      }
+  });
+  xhr.onload = function (e) {
+    var songList = JSON.parse(this.response);
+
+    if (songList[0]) {
+        $("<option />", {
+            value: "nochoice",
+            text: "Choose a song..."
+        }).appendTo(s);
+    }
+
+    songList.forEach(function (songName) {
+        $("<option />", {
+            value: songName,
+            text: songName
+        }).appendTo(s);
+    });
+
+    $('#songSelect').val( folderName ).change();
 
   };
   xhr.send();

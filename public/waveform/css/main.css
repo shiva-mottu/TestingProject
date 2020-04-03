@@ -28,7 +28,7 @@
 
 .playlist .controls { background: white; text-align: center; }
 
-.playlist .controls header { overflow: hidden; color: white; background-color: #536774 ; margin-bottom: 1em; height: 20px; }
+.playlist .controls header { overflow: hidden; color: white; background-color: #033a5a ; margin-bottom: 1em; height: 20px; }
 
 .playlist .controls label { margin: 1em auto; width: 100%; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-rendering: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transform: translate(0, 0); }
 

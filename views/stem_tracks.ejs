@@ -19,6 +19,52 @@
   <link rel="stylesheet" href="waveform/css/main.css">
   <link rel="canonical" href="https://naomiaro.github.io/waveform-playlist/stem-tracks.html">
   <link rel="alternate" type="application/rss+xml" title="Waveform Playlist" href="https://naomiaro.github.io/waveform-playlist/feed.xml">
+
+  <style>
+    .styled-select {
+      position: relative;
+      background-color: #e6e6e6;
+      width: auto;
+      float: right;
+      max-width: 100%;
+      border-radius: 2px;
+    }
+
+    .styled-select select {
+    font-weight: bold;
+    max-width: 100%;
+    padding: 8px 24px 8px 10px;
+    color: white;
+    font-size: initial;
+    background-color: #021c35b3;
+    -webkit-appearance: none;
+}
+
+.styled-select option {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+.styled-select select:active, .select-dropdown select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.styled-select:after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  margin-top: -2px;
+  right: 8px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #aaa;
+}
+  </style>
 </head>
 
 
@@ -32,7 +78,7 @@
       </header>
       <div class="post-content">
         <div id="top-bar" class="playlist-top-bar">
-          <div class="playlist-toolbar">
+          <div class="row playlist-toolbar">
             <div class="btn-group">
               <span class="btn-pause btn btn-warning"><i class="fa fa-pause"></i></span>
               <span class="btn-play btn btn-success"><i class="fa fa-play"></i></span>
@@ -41,7 +87,11 @@
               <span class="btn-fast-forward btn btn-success"><i class="fa fa-fast-forward"></i></span>
             </div>
             <span class="audio-pos">00:00:00.0</span>
+            <div id="songs" class="styled-select"></div>
+            </div>
           </div>
+          
+          
         </div>
     <div id="playlist"></div>
     <form class="form-inline">

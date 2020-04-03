@@ -19,7 +19,7 @@ var upload = multer({ storage: storage }).single("musicFile")
 
 var router = express.Router();
 
-TRACKS_PATH = "./public/multitrack/"
+TRACKS_PATH = "./public/multitrack/";
 
 
 router.get("/",function(req,res){
@@ -96,7 +96,7 @@ upload(req, res, function (err) {
 
 const ChildProcessScript = function(fileName,stems){
   console.log("fileName :: "+ fileName  +" :: stems :: "+stems)
-  spleeter_cmd = "python -m spleeter separate -i spleeter/songs/"+ fileName +" -p spleeter:"+stems+"stems -o output"
+  spleeter_cmd = "python -m spleeter separate -i spleeter/songs/"+ fileName +" -p spleeter:"+stems+"stems -o public/multitrack"
 
   /*const ls = exec(spleeter_cmd, function (error, stdout, stderr) {
     if (error) {
@@ -123,7 +123,6 @@ async function spleeter() {
 spleeter();
 */
 
-console.log("spawn method called")
 const { spawn } = require('child_process');
 
 
@@ -160,7 +159,7 @@ node.on('close', (code) => {
 
 router.get("/checkOutputFolder", async (req, res) => {
   const folderName = req.query.name;
-  let folderPath = "./output/"+folderName
+  let folderPath = TRACKS_PATH+folderName
   let data = {};
   //check directory exist's or not
   if (fs.existsSync(folderPath)) {
@@ -175,19 +174,26 @@ router.get("/checkOutputFolder", async (req, res) => {
 router.get("/mt5Player", async (req, res) => {
   const name = req.query.name;
   if(typeof(name)!="undefined"){
-    let source = "./output/"+name;
-    let destination = TRACKS_PATH+name;
-
-    fsExtra.move(source, destination, err => {
-      if (err) return console.error(err)
-      //res.render("player");
-      //res.render('stem_tracks',{name:name});
-      res.render('web_audio',{name:name});
-    })
+    res.render('web_audio',{name:name});
   }else{
     res.send();
   }
   
+});
+
+router.get("/deleteTrack/:name", async (req, res) => {
+  const trackName= req.params.name;
+  console.log("delete function called...");
+  fsExtra.remove(TRACKS_PATH+trackName,function(){
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.write(JSON.stringify({"delete" : "done"}));
+    res.end();
+  });
+});
+
+router.get("/sharemusic/:name", async (req, res) => {
+  const trackName= req.params.name;
+  console.log(trackName);
 });
 
 // player routing

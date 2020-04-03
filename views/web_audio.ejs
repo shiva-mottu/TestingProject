@@ -11,12 +11,14 @@
 
   <title>Full Waveform Editor</title>
   <meta name="description" content="Waveform Playlist, the multitrack javascript web audio editor and player. Set audio cue in and cue out. Set linear, exponential, logarithmic, and s-curve fades. Shift audio in time. Zoom in and zoom out on the waveform. Play, stop, pause and seek inside the audio tracks.">
+  <link rel="shortcut icon" href="favicon.ico">
 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="waveform/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="waveform/css/main.css">
   <link rel="canonical" href="https://naomiaro.github.io/waveform-playlist/web-audio-editor.html">
   <link rel="alternate" type="application/rss+xml" title="Waveform Playlist" href="https://naomiaro.github.io/waveform-playlist/feed.xml">
+
 </head>
 
 
@@ -26,28 +28,33 @@
   <div class="wrapper">
     <article class="post">
       <header class="post-header">
-        <h1 class="post-title">Full Waveform Editor</h1>
-        <p class="lead">Every control and state available.</p>
+        <h3 class="post-title">Full Waveform Editor</h3>
+        <button type="button" class="btn btn-primary" style="float: right;">Share Music Link</button>
       </header>
       <div class="post-content">
         <div id="top-bar" class="playlist-top-bar">
   <div class="playlist-toolbar">
     <div class="btn-group">
-      <span class="btn-pause btn btn-warning">
-        <i class="fa fa-pause"></i>
-      </span>
-      <span class="btn-play btn btn-success">
-        <i class="fa fa-play"></i>
-      </span>
-      <span class="btn-stop btn btn-danger">
-        <i class="fa fa-stop"></i>
-      </span>
       <span class="btn-rewind btn btn-success">
         <i class="fa fa-fast-backward"></i>
       </span>
+
+      <span class="btn-stop btn btn-danger">
+        <i class="fa fa-stop"></i>
+      </span>
+      
+      <span class="btn-play btn btn-success">
+        <i class="fa fa-play"></i>
+      </span>
+
+      <span class="btn-pause btn btn-primary">
+        <i class="fa fa-pause"></i>
+      </span>
+      
       <span class="btn-fast-forward btn btn-success">
         <i class="fa fa-fast-forward"></i>
       </span>
+
     </div>
     <div class="btn-group">
       <span title="zoom in" class="btn-zoom-in btn btn-default">
@@ -64,6 +71,8 @@
       <span class="btn-select btn btn-default" title="select audio region">
         <i class="fa fa-italic"></i>
       </span>
+
+      <!--
       <span class="btn-shift btn btn-default" title="shift audio in time">
         <i class="fa fa-arrows-h"></i>
       </span>
@@ -73,20 +82,30 @@
       <span class="btn-fadeout btn btn-default" title="set audio fade out">
         <i class="fa fa-long-arrow-right"></i>
       </span>
+      -->
     </div>
+    <!--
     <div class="btn-group btn-fade-state-group">
       <span class="btn btn-default btn-logarithmic active">logarithmic</span>
       <span class="btn btn-default btn-linear">linear</span>
       <span class="btn btn-default btn-exponential">exponential</span>
       <span class="btn btn-default btn-scurve">s-curve</span>
     </div>
-    <div class="btn-group btn-select-state-group">
-      <span class="btn-loop btn btn-success disabled" title="loop a selected segment of audio">
+    -->
+    <div class="btn-group btn-select-state-group" >
+      <span class="btn-loop btn btn-info disabled" title="loop a selected segment of audio">
         <i class="fa fa-repeat"></i>
       </span>
+      
+      <!--
       <span title="keep only the selected audio region for a track"
-            class="btn-trim-audio btn btn-primary disabled">Trim</span>
+            class="btn-trim-audio btn btn-primary disabled">Trim</span> -->
     </div>
+    <div class="btn-group btn-select-state-group">
+        <label class="audio-pos">00:00:00.0</label>
+    </div>
+    
+    <!--
     <div class="btn-group">
       <span title="Prints playlist info to console"
             class="btn btn-info">Print</span>
@@ -97,11 +116,12 @@
         <i class="fa fa-download"></i>
       </span>
     </div>
+    -->
   </div>
 </div>
 <div id="playlist"></div>
 <div class="playlist-bottom-bar">
-  <form class="form-inline">
+  <!--<form class="form-inline">
   <select class="time-format form-control">
     <option value="seconds">seconds</option>
     <option value="thousandths">thousandths</option>
@@ -113,7 +133,7 @@
   <input type="text" class="audio-start input-small form-control">
   <input type="text" class="audio-end form-control">
   <label class="audio-pos">00:00:00.0</label>
-</form>
+</form>-->
 
   <form class="form-inline">
     <div class="form-group">
@@ -126,7 +146,7 @@
       </label>
     </div>
   </form>
-  <form class="form-inline">
+  <!--<form class="form-inline">
     <div class="control-group">
       <label for="time">Seek to time :</label>
       <input type="number" class="form-control" value="14" id="seektime"/>
@@ -135,7 +155,7 @@
   </form>
   <div class="sound-status"></div>
   <div class="track-drop"></div>
-  <div class="loading-data"></div>
+  <div class="loading-data"></div>-->
 </div>
 
       </div>
@@ -143,7 +163,7 @@
   </div>
 </div>
 
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="waveform/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="waveform/js/waveform-playlist.var.js"></script>
 <script type="text/javascript" src="waveform/js/web-audio-editor.js"></script>
 <script type="text/javascript" src="waveform/js/emitter.js"></script>

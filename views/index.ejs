@@ -14,19 +14,75 @@
     <script src="js/ejs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/home.js"></script>
+    <style>
+        li {
+            list-style: none;
+            background: #3e3c3c;
+            margin: 2px;
+            padding: 5px;
+            text-align: initial;
+            word-wrap: break-word;
+        }
+
+        .deleteMe {
+            float: right;
+            color: red;
+        }
+
+        .dropdown-container {
+            display: block;
+            position: absolute;
+            border: 2px solid #8a86866b;
+            padding: 2px;
+            background: #a28e94;
+            width: 547px;
+            margin-left: 469px;
+            margin-top: 33px;
+            max-width: 100%;
+            height: 200px;
+            max-height: 100%;
+            overflow-y: scroll;
+        }
+
+        li:hover {
+            background-color: #675b06;
+        }
+
+        .dropdown {
+            position: relative;
+            border-radius: 3px;
+            min-height: 38px;
+            max-height: 100%;
+            background-color: #fffafa;
+            padding-top: 6px;
+            color: #8c8f92;
+            text-align: initial;
+            margin-left: 13px;
+            word-break: break-all;
+        }
+        .dropdown .trigger {
+            padding-top: 10px;
+            position: absolute;
+            right: 3px;
+            top: 1px;
+        }
+    </style>
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Webabi</a>
+        <div class="container-fluid">
+            <h2 style="font-style: italic;">Webabi Music File Seperation</h2>
+        </div>
+        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
 
     <div class="container" style="margin-top:30px;">
-        <h2 style="font-style: italic;">Webabi Music File Seperation</h2>
+        
         <form id="formData" method="post" enctype="multipart/form-data">
             <div class="boxStyles" style="border:1px solid #b5a7abe0;margin-top: 30px;text-align: right;">
                 <div class="row" style="margin-top: 25px;">
@@ -35,7 +91,10 @@
                     </div>
                     <div class="form-group col-sm-6"> 
                         <input type="file" class="form-control" id="musicFile" name="musicFile" style="height:calc(1.8em + .75rem + 2px) !important" autofocus multiple> 
-                    </div>   
+                    </div> 
+                    <div class="form-group col-sm-1 hidden" id="file_status">
+                        <img src="img/right.png" width=30 height=30 style="margin-top: 5PX;float: left;">
+                    </div>  
                 </div>
             
                 <div class="row upload-progress-bar hidden" id="upload_progressbar">
@@ -55,21 +114,34 @@
                         <input type="text" class="form-control" id="link" placeholder="Ex: https://www.youtube.com/watch?v=T8Zj1oLGaQE" name="link" value="https://www.youtube.com/watch?v=T8Zj1oLGaQE">
                     </div>   
                 </div>
+
                 <div class="row">
                     <div class="col-sm-5">
                         <label for="sel1">Type of extraction for this request::</label>
                     </div>
                     <div class="col-sm-6">
                         <select class="form-control" name="stems" id="stems">
-                            <option value=2>2 stems (vocals,accompaniment)</option>
-                            <option value=4>4 stems (vocals,bass,drums,other)</option>
-                            <option value=5>5 stems (vocals,bass,drums,piano,other)</option>
+                            <option value=2 >2 stems (vocals,accompaniment)</option>
+                            <option value=4 >4 stems (vocals,bass,drums,other)</option>
+                            <option value=5 >5 stems (vocals,bass,drums,piano,other)</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="row form-actions btns">
                     <button type="submit" class="btn btnStyles" >Check Tracks</button>
                 </div>
+                
+                <div class="row hidden" id="dropdown_div">
+                    <div class="form-group col-sm-5"> 
+                        <label class="form-label" for="songs">Choose Song:</label> 
+                    </div>
+                    <div id="selected" class="dropdown form-group col-sm-6">
+                        <img class="trigger" src="https://i.stack.imgur.com/LFSrX.png"> Choose Song.....
+                      </div>  
+                      <ul class="dropdown-container" id="dropdown_select"style="display:none">
+                      </ul>
+                </div> 
             </div>
         </form>
         
@@ -83,7 +155,7 @@
         </div>
         <div class="hidden" style="text-align: center;" id="info">  
             <span>
-                please wait we are generating files....
+                please wait we are generating tracks....
             </span>
         </div>
         
