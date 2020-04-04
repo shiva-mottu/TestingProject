@@ -1,139 +1,142 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-        <title>MT5, the HTML5 multitrack player for musicians</title>
-        <ascript src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></ascript>
-        <script src="../js/jquery.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/view.js"></script>
-        <script src="../js/waveformDrawer.js"></script>
-        <script src="../js/track.js"></script>
-        <script src="../js/song.js"></script>
-        <script src="../js/buffer-loader.js"></script>
-        <script src="../js/sound.js"></script>
-        <script src="../js/jquery.knob.js"></script>
-        <script src="../js/knob.js"></script>
-        <script src="../js/utils.js"></script>
-        <script src="../js/canvasArrows.js"></script>
-        <script src="../js/range-touch.js"></script>
-        <script src="../js/recorderjs/recorder.js"></script>
-        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
-		    <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    </head>
-    <body onload="init();">
-	
-	<div id="app">
-	
-		<div id="console">
-		    <ul class="nav nav-tabs">
-          <li ><a id="consoleTab" href="#home" data-toggle="tab">Console</a></li>
-          <li><a id="waveTab" href="#profile" data-toggle="tab">Wave</a></li>
-          <li><a class="active" href="#help" data-toggle="tab">Help</a></li>
-        </ul>
-            
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div class="tab-pane fade in " id="home">
-              <div id="messages">Please choose a song !</div>
-          </div>
-          <div class="tab-pane fade" id="profile">
-              <canvas id="waveCanvas"></canvas>
-          </div>
-            <div class="tab-pane fade in active" id="help">
-                <p>Version 1.0, <a href="http://miageprojet2.unice.fr/index.php?title=Intranet_de_Michel_Buffa/MT5%2C_multitrack_player_for_musicians"
-                                        target="_blank">Documentation / Manual</a></p>
-                <p><a href="https://github.com/squallooo/MT5" target="_blank">https://github.com/squallooo/MT5</a></p>
-              
-               <p>Michel Buffa, main designer</p><p>and implementer (@micbuffa)</p>
-                <p>Amine Hallili, HTML/CSS layout</p>             
-            </div>
-        </div>
-	</div>
-	
-		<div id="masterTools">
-		<div style="position : absolute;width : 602px;">
-			<h2 style="text-align : center;">MT5, the HTML5 Multitrack player !</h2>
-			
-			<span id="volume">
-    			<button id="bsound" onclick="masterMuteUnmute(this);" type="button" class="btn btn-default btn-lg master" style="margin-right: 28px;position: absolute;right: 0;margin-top: 28px;">
-                  <span class="glyphicon glyphicon-volume-up"></span>
-                </button>
-    			<input id ="masterVolume" class="knob masterVolume" data-width="100" data-height="100" data-displayInput=false value="100">
-			</span>
-			
-			<table style="margin-left: auto; margin-right: auto;">
-			    <tr><td>
-			        <button id="bplay" type="button" class="btn btn-default btn-lg" onclick="playAllTracks(0);" disabled>
-                      <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                    
-                    <button id="bpause" onclick="pauseAllTracks();" disabled type="button" class="btn btn-default btn-lg">
-                      <span class="glyphicon glyphicon-pause"></span>
-                    </button>
-                    
-                    <button id="bstop" onclick="stopAllTracks();"  type="button" class="btn btn-default btn-lg" disabled>
-                      <span class="glyphicon glyphicon-stop"></span>
-                    </button>
-                    <button id="bstop" onclick="addNewTrackForRecord();"  type="button" class="btn btn-default btn-lg" disabled>
-                      <span class="glyphicon glyphicon-record"></span>
-                    </button>
-                     <button id="brecordMix" onclick="toggleRecordMix();"type="button" class="btn btn-default btn-lg" style="font-size: 10px;
-padding: 0;" disabled>Record mix
-                    </button>
-			    </td></tr>
-			    <tr><td id="loopBox">
-			        <button id="loopStart" onclick="setLoopStart();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
-padding: 0;" disabled>
-                      Start Loop
-                    </button>
-                    
-                    <button id="loopEnd"  onclick="setLoopEnd();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
-padding: 0;" disabled>
-                      End loop
-                    </button>
-                    
-                    <button id="loopReset"  onclick="resetSelection();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
-padding: 0;" disabled>
-                      Reset loop
-                    </button>
-                    
-                    <button onclick="loopOnOff();" id="loopOnOff" type="button" class="btn btn-default btn-lg" disabled>
-                      <span class="glyphicon glyphicon-repeat"></span>
-                    </button>
-			    </td></tr>
-			    <tr><td>
-			        <div id="songs" class="styled-select"></div>
-			        <br/>
-			    </td></tr>
-			</table>
-		</div>
-		</div>
-		
-		
+<html lang="en">
 
-		<div id="scroll">
-    		<div id="trackControl">
-    			<table id="tracks">
-    				
-    			
-    			</table>
-    		</div>
-    		<div id="canvass">
-    			<div style="position: relative;">
-    				<canvas id="myCanvas" width="602" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-    				<canvas id="frontCanvas"                       style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-    			</div>
-    		</div>
-		</div>
-	
-	
-	</div>
-        
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="https://raw.githubusercontent.com/naomiaro/waveform-playlist/master/img/stemtracks.png">
+  <meta property="og:image:height" content="401">
+  <meta property="og:image:width" content="1039">
+
+  <title>Music Player</title>
+  <meta name="description" content="Waveform Playlist, the multitrack javascript web audio editor and player. Set audio cue in and cue out. Set linear, exponential, logarithmic, and s-curve fades. Shift audio in time. Zoom in and zoom out on the waveform. Play, stop, pause and seek inside the audio tracks.">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link rel="stylesheet" href="../waveform/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../waveform/css/main.css">
+  <link rel="canonical" href="https://naomiaro.github.io/waveform-playlist/web-audio-editor.html">
+  <link rel="alternate" type="application/rss+xml" title="Waveform Playlist" href="https://naomiaro.github.io/waveform-playlist/feed.xml">
+  <style>
+    .playlist-top-bar {
+      padding: 10px;
+      text-align: center;
+      border: 3px solid #928989;
+      border-radius: 20px;
+      box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.17);
+    }
+    #playlist{
+      border: 3px solid #928989;
+      margin-top: 15px;
+      border-radius: 20px;
+      box-shadow: 5px 10px 18px #888888;
+    }
+  </style>
+</head>
 
 
-        
-    </body>
+  <body>
+
+<div class="container">
+  <div class="wrapper">
+    <article class="post">
+      <header class="post-header">
+        <h2 class="post-title">Music Player</h2> 
+      </header>
+      <div class="post-content">
+        <div id="top-bar" class="playlist-top-bar">
+  <div class="playlist-toolbar">
+    <div class="btn-group">
+      <span class="btn-rewind btn btn-success">
+        <i class="fa fa-fast-backward"></i>
+      </span>
+
+      <span class="btn-stop btn btn-danger">
+        <i class="fa fa-stop"></i>
+      </span>
+      
+      <span class="btn-play btn btn-success">
+        <i class="fa fa-play"></i>
+      </span>
+
+      <span class="btn-pause btn btn-primary">
+        <i class="fa fa-pause"></i>
+      </span>
+      
+      <span class="btn-fast-forward btn btn-success">
+        <i class="fa fa-fast-forward"></i>
+      </span>
+
+    </div>
+    <div class="btn-group">
+      <span title="zoom in" class="btn-zoom-in btn btn-default">
+        <i class="fa fa-search-plus"></i>
+      </span>
+      <span title="zoom out" class="btn-zoom-out btn btn-default">
+        <i class="fa fa-search-minus"></i>
+      </span>
+    </div>
+    <div class="btn-group btn-playlist-state-group">
+      <span class="btn-cursor btn btn-default active" title="select cursor">
+        <i class="fa fa-headphones"></i>
+      </span>
+      <span class="btn-select btn btn-default" title="select audio region">
+        <i class="fa fa-italic"></i>
+      </span>
+
+    </div>
+    <div class="btn-group btn-select-state-group" >
+      <span class="btn-loop btn btn-info disabled" title="loop a selected segment of audio">
+        <i class="fa fa-repeat"></i>
+      </span>
+    </div>
+    <div class="btn-group btn-select-state-group">
+        <label class="audio-pos">00:00:00.0</label>
+    </div>
+  </div>
+</div>
+<div id="playlist"></div>
+<div class="playlist-bottom-bar">
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="master-gain">Master Volume</label>
+      <input type="range" min="0" max="100" value="100" class="master-gain form-control" id="master-gain">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" class="automatic-scroll"> Automatic Scroll
+      </label>
+    </div>
+  </form>
+</div>
+
+      </div>
+    </article>
+  </div>
+</div>
+
+<script type="text/javascript" src="../waveform/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../waveform/js/waveform-playlist.var.js"></script>
+<script type="text/javascript" src="../waveform/js/player.js"></script>
+<script type="text/javascript" src="../waveform/js/emitter.js"></script>
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-62186746-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+<script>
+    var name = "<%= name %>";
+    WebAudioSongName(name);
+</script>
+  </body>
+
 </html>

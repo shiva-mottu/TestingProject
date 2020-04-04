@@ -1,5 +1,4 @@
 import sys
-import asyncio
 import subprocess
 
 fileName = sys.argv[1]
@@ -13,4 +12,4 @@ spleeter_cmd = "python -m spleeter separate -i  spleeter/songs/"+ fileName +" -p
 subprocess.Popen(spleeter_cmd,stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True)
 #subprocess.check_output(spleeter_cmd)
 #subprocess.getoutput(spleeter_cmd)
-print("Python end...")
+print("Python end...file will download asynchronously")

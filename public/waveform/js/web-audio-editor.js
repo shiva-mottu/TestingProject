@@ -17,8 +17,9 @@ var playlist = WaveformPlaylist.init({
   zoomLevels: [500, 1000, 3000, 5000]
 });
 
+var fileName = "";
 function WebAudioSongName(folderName){
-  
+  fileName = folderName;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', "track/"+folderName, true);
 
@@ -44,3 +45,22 @@ function WebAudioSongName(folderName){
   };
   xhr.send();
 }
+
+function tooltipText(){
+  var tooltip = document.getElementById("share");
+  tooltip.innerHTML = "Copy to clipboard";
+};
+
+function shareMusicLink(){
+    console.log("share music link called "+fileName);
+  var link = window.location.origin+"/sharemusic/"+fileName;
+
+  navigator.clipboard.writeText(link).then(function() {
+      console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  
+  var tooltip = document.getElementById("share");
+  tooltip.innerHTML = "Copied: " + link;
+};

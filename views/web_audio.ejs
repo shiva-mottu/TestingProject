@@ -19,6 +19,46 @@
   <link rel="canonical" href="https://naomiaro.github.io/waveform-playlist/web-audio-editor.html">
   <link rel="alternate" type="application/rss+xml" title="Waveform Playlist" href="https://naomiaro.github.io/waveform-playlist/feed.xml">
 
+  <style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      float: right;
+      opacity: 1;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 140px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 150%;
+      left: 50%;
+      margin-left: -75px;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    </style>
 </head>
 
 
@@ -28,8 +68,14 @@
   <div class="wrapper">
     <article class="post">
       <header class="post-header">
-        <h3 class="post-title">Full Waveform Editor</h3>
-        <button type="button" class="btn btn-primary" style="float: right;">Share Music Link</button>
+        <h3 class="post-title">Full Waveform Editor11</h3>
+        <div class="tooltip">
+        <button type="button" class="btn btn-primary" style="float: right;"  onclick="shareMusicLink()" onmouseout="tooltipText()"">
+          <span class="tooltiptext" id="share">Copy to clipboard</span>
+          Share Music Link
+        </button>
+      </div>
+          
       </header>
       <div class="post-content">
         <div id="top-bar" class="playlist-top-bar">

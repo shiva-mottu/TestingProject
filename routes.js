@@ -183,7 +183,6 @@ router.get("/mt5Player", async (req, res) => {
 
 router.get("/deleteTrack/:name", async (req, res) => {
   const trackName= req.params.name;
-  console.log("delete function called...");
   fsExtra.remove(TRACKS_PATH+trackName,function(){
     res.writeHead(200, { "Content-Type": "application/json" });
     res.write(JSON.stringify({"delete" : "done"}));
@@ -193,7 +192,7 @@ router.get("/deleteTrack/:name", async (req, res) => {
 
 router.get("/sharemusic/:name", async (req, res) => {
   const trackName= req.params.name;
-  console.log(trackName);
+  res.render('player',{name:trackName});
 });
 
 // player routing

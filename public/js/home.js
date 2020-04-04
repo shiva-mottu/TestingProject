@@ -111,10 +111,8 @@ function init(){
                   var trackName = $(this).closest("li").text().trim().slice(0, -1);
                   console.log(trackName);
 
-                  var res = deleteTrack(trackName);
-                  
-                  console.log(res);
-                  
+                  deleteTrack(trackName);
+                
                   $(this).closest("li").remove();
 
                 } else {
