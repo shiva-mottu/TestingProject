@@ -126,7 +126,7 @@ spleeter();
 const { spawn } = require('child_process');
 
 
-const node = spawn("python",["./test.py",fileName,stems]);
+const node = spawn("python",["./spleeter_python.py",fileName,stems]);
 node.stdout.on('data', (data) => {
   console.log("stdout:"+ data.toString());
 });
@@ -170,6 +170,24 @@ router.get("/checkOutputFolder", async (req, res) => {
   res.send(data);
 
 });
+
+router.get("/deleteUploadedSong", async (req, res) => {
+  const name = req.query.name;
+  const filePath = "./spleeter/songs/"+name;
+  fs.access(filePath, error => {
+    if (!error) {
+        fs.unlinkSync(filePath);
+        res.send({
+          "file_delete":true
+        });
+    } else {
+        console.log(error);
+        res.send({
+          "file_delete":false
+        });
+    }
+});
+})
 
 router.get("/mt5Player", async (req, res) => {
   const name = req.query.name;

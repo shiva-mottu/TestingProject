@@ -1,4 +1,5 @@
 window.onload = init;
+var uploadedFileName = "";
 
 function init(){
 
@@ -11,7 +12,9 @@ function init(){
         document.getElementById("upload_progressbar").classList.remove('hidden');
 
         document.getElementById("musicPlayer").classList.add('hidden');
-        document.getElementById("file_status").classList.add('hidden');
+        
+        document.getElementById("file_status1").classList.add('hidden');
+        document.getElementById("file_status2").classList.add('hidden');
 
         var interval = setInterval(function() {
             progress()
@@ -50,18 +53,23 @@ function init(){
                 UploadProgressBarFill.style.width = percentCompleted + "%";
                 UploadProgressBarText.textContent = percentCompleted + "%";
                 if(percentCompleted == 100){
-                    document.getElementById("file_status").classList.remove('hidden');
+                    //document.getElementById("file_status1").classList.remove('hidden');
                     document.getElementById("upload_progressbar").classList.add('hidden');
+
+                    if(myfile.length>0){
+                        document.getElementById("file_status1").classList.remove('hidden');
+                    }else{
+                        document.getElementById("file_status2").classList.remove('hidden');
+                    }
                 }
             }
         }
 
-        var output = document.getElementById('output');
         axios.post('/formUpload',formData,contentType)
         .then(function (response) {
             result = response.data;
             if(result.status)
-                FolderChecking(interval,result.folderName)
+                FolderChecking(interval,result.folderName,result.renamedFileName)
             
         })
         .catch(function (error) {
@@ -82,10 +90,6 @@ function init(){
         xhr.send();
     }
 
-    function FolderChecking(interval,filename){
-    var myVar = setInterval(getData, 20000);
-
-    
     function getTracks(folderName){
         var xhr = new XMLHttpRequest();
         xhr.open('GET', "track", true);
@@ -98,17 +102,17 @@ function init(){
             var songList = JSON.parse(this.response);
         
             if (songList.length == 0) {
-                $("<li class='init'>No Data Found....<div class='deleteMe'>X</div> </li>").appendTo(s);
+                $("<li class='init'>No Data Found....<img class='deleteMe' src='img/delete.png' style='width: 26px; '> </li>").appendTo(s);
             }
         
             songList.forEach(function (songName) {
-                $("<li>"+songName+"<div class='deleteMe'>X</div> </li>").appendTo(s);
+                $("<li>"+songName+"<img class='deleteMe' src='img/delete.png' style='width: 26px; '> </li>").appendTo(s);
             });
 
             $(".deleteMe").on("click", function() {
                 if (confirm('Are you sure to delete?')) {
                 
-                  var trackName = $(this).closest("li").text().trim().slice(0, -1);
+                  var trackName = $(this).closest("li").text();
                   console.log(trackName);
 
                   deleteTrack(trackName);
@@ -122,9 +126,9 @@ function init(){
             });
             
             $('li').click(function(e) {
-                var trackName = $(this).text().trim().slice(0, -1);
+                var trackName = $(this).text();
                 console.log(trackName);
-                $('#selected').html('<img class="trigger" src = "https://i.stack.imgur.com/LFSrX.png">' + trackName);
+                $('#selected').html('<img class="trigger" src = "img/down_arrow_select.jpg">' + trackName);
                 $('.dropdown-container').hide();
 
                 $("#iframeUrl").attr("src", "/mt5Player?name="+trackName);
@@ -144,38 +148,52 @@ function init(){
         };
         xhr.send();
 
-        $('#selected').html('<img class="trigger" src = "https://i.stack.imgur.com/LFSrX.png">' + folderName);    
+        $('#selected').html('<img class="trigger" src = "img/down_arrow_select.jpg">' + folderName);    
     }
 
+    function deleteSong(songName){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "deleteUploadedSong?name="+songName, true);
+        xhr.onload = function (e) {
+            var response = JSON.parse(this.response);
+            console.log(response);
+        }
+        xhr.send();
+    }
+
+    function FolderChecking(interval,filename,filenamewithExt){
+    var myVar = setInterval(getData, 20000);   
 
     function getData() {
-            $.ajax({
-                url : 'checkOutputFolder',
-                type : 'GET',
-                data : {
-                    'name' : filename
-                },
-                dataType:'json',
-                success : function(data) {              
-                    console.log('Chek in Floder: '+JSON.stringify(data));
-                    if(data.player){
-                        clearInterval(myVar);
-                        document.getElementById("musicPlayer").classList.remove('hidden');
-                        $("#iframeUrl").attr("src", "/mt5Player?name="+data.name);
-
-                        clearInterval(interval);
-                        getTracks(data.name);
-                        document.getElementById("progressbar").classList.add('hidden');
-                        document.getElementById("info").classList.add('hidden');
-                    }
-                },
-                error : function(request,error)
-                {
+        $.ajax({
+            url : 'checkOutputFolder',
+            type : 'GET',
+            data : {
+                'name' : filename
+            },
+            dataType:'json',
+            success : function(data) {              
+                console.log('Chek in Floder: '+JSON.stringify(data));
+                if(data.player){
                     clearInterval(myVar);
-                    console.log("Request: "+JSON.stringify(request));
+                    document.getElementById("musicPlayer").classList.remove('hidden');
+                    $("#iframeUrl").attr("src", "/mt5Player?name="+data.name);
+
+                    clearInterval(interval);
+                    getTracks(data.name);
+                    document.getElementById("progressbar").classList.add('hidden');
+                    document.getElementById("info").classList.add('hidden');
+
+                    deleteSong(filenamewithExt);
                 }
-            });
+            },
+            error : function(request,error)
+            {
+                clearInterval(myVar);
+                console.log("Request: "+JSON.stringify(request));
+            }
+        });
     }
-}
+    }
 
 }

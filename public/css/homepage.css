@@ -9,7 +9,7 @@ body{
     color:white;
 }
 
-h2 {
+h3 {
     text-align: center;
     color: #f1d06c;
 }
@@ -126,4 +126,61 @@ h2 {
     margin-left:10px;
     text-align: center;
     font-weight: bold;
+}
+
+
+/* drop down css*/
+
+li {
+    list-style: none;
+    background: #3e3c3c;
+    margin: 2px;
+    padding: 5px;
+    text-align: initial;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.deleteMe {
+    float: right;
+    color: red;
+    cursor: pointer;
+}
+
+.dropdown-container {
+    display: block;
+    position: absolute;
+    border: 2px solid #8a86866b;
+    padding: 2px;
+    background: #a28e94;
+    width: 547px;
+    margin-left: 469px;
+    margin-top: 33px;
+    max-width: 100%;
+    height: 200px;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+li:hover {
+    background-color: #675b06;
+}
+
+.dropdown {
+    position: relative;
+    border-radius: 3px;
+    min-height: 38px;
+    max-height: 100%;
+    background-color: #fffafa;
+    padding-top: 6px;
+    color: #8c8f92;
+    text-align: initial;
+    margin-left: 13px;
+    word-break: break-all;
+}
+.dropdown .trigger {
+    padding-top: 2px;
+    position: absolute;
+    right: 3px;
+    top: 1px;
 }
