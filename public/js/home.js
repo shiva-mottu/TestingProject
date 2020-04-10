@@ -11,7 +11,7 @@ function init(){
         document.getElementById("info").classList.remove('hidden');
         document.getElementById("upload_progressbar").classList.remove('hidden');
 
-        document.getElementById("musicPlayer").classList.add('hidden');
+        document.getElementById("playerInfo").classList.add('hidden');
         
         document.getElementById("file_status1").classList.add('hidden');
         document.getElementById("file_status2").classList.add('hidden');
@@ -53,7 +53,6 @@ function init(){
                 UploadProgressBarFill.style.width = percentCompleted + "%";
                 UploadProgressBarText.textContent = percentCompleted + "%";
                 if(percentCompleted == 100){
-                    //document.getElementById("file_status1").classList.remove('hidden');
                     document.getElementById("upload_progressbar").classList.add('hidden');
 
                     if(myfile.length>0){
@@ -131,7 +130,7 @@ function init(){
                 $('#selected').html('<img class="trigger" src = "img/down_arrow_select.jpg">' + trackName);
                 $('.dropdown-container').hide();
 
-                $("#iframeUrl").attr("src", "/mt5Player?name="+trackName);
+                $("#musicUrl").attr("src", "/mt5Player?name="+trackName);
             });
 
             $(window).click(function() {
@@ -176,8 +175,9 @@ function init(){
                 console.log('Chek in Floder: '+JSON.stringify(data));
                 if(data.player){
                     clearInterval(myVar);
-                    document.getElementById("musicPlayer").classList.remove('hidden');
-                    $("#iframeUrl").attr("src", "/mt5Player?name="+data.name);
+                    document.getElementById("playerInfo").classList.remove('hidden');
+                    $("#musicUrl").attr("src", "/mt5Player?name="+data.name);
+                    $('#guitarUrl').attr("src","https://wasabi.i3s.unice.fr/dynamicPedalboard/?bank=Blues&preset=Michel1");
 
                     clearInterval(interval);
                     getTracks(data.name);
