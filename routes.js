@@ -1,13 +1,18 @@
 var express = require("express");
 const fs = require("fs");
 let fsExtra = require("fs-extra");
+
 const youtubedl = require('youtube-dl');
+const ytdl = require('ytdl-core');
+
 var multer  = require('multer');
 const  path = require("path");
 const { exec } = require('child_process');
 
+const uploadFiles = "./public/songs/";
+
 var storage = multer.diskStorage({
-    destination: "./spleeter/songs/",
+    destination: uploadFiles,
     filename: function (req, file, cb) {
       originalname = file.originalname;
       splitName = originalname.split(path.extname(file.originalname))
@@ -40,8 +45,7 @@ upload(req, res, function (err) {
         console.log(percentCompleted)
       }
     }
-      console.log(req.body);
-      console.log(req.file);
+      
       let link = req.body.link;
       let stems = req.body.stems;
       
@@ -50,9 +54,38 @@ upload(req, res, function (err) {
       let splitName = [""];
       if(typeof(req.file) == "undefined"){
 
+        console.log(req.body);
+
         let fileName = "";
         let splitName = [""];
-        youtubedl.exec(link, ['-x', '--audio-format', "mp3" ,"-o","/spleeter/songs/%(title)s_"+Date.now()+".%(ext)s","--restrict-filenames"], {}, function(err, output) {
+
+        var videoReadableStream = ytdl(link, { filter: 'audioonly'});
+
+        ytdl.getInfo(link, function(err, info){
+              var videoName = info.title.replace(/[^a-zA-Z0-9]/g, "").toString('ascii');
+              folderName = videoName +"_"+Date.now()
+              fileName = folderName+ '.mp3'
+
+              var videoWritableStream = fs.createWriteStream(uploadFiles+fileName); 
+
+              var stream = videoReadableStream.pipe(videoWritableStream);
+
+              stream.on('finish', function() {
+
+                console.log("file download finished..");
+
+                ChildProcessScript(fileName,stems)
+
+                res.send({
+                  "status":true,
+                  originalFileName : fileName,
+                  renamedFileName : fileName,
+                  folderName : folderName
+                });
+              });              
+        });
+                
+        /*youtubedl.exec(link, ['-x', '--audio-format', "mp3" ,"-o","/spleeter/songs/%(title)s_"+Date.now()+".%(ext)s","--restrict-filenames",`--unhandled-rejections=strict`], {}, function(err, output) {
           if (err) throw err
           
               console.log(output.join('\n'))
@@ -74,9 +107,10 @@ upload(req, res, function (err) {
                 folderName : splitName[0]
               });
 
-        });
+        });*/
 
       }else{
+        console.log(req.file);
         renamedFileName = req.file.filename;
         originalName = req.file.originalname;
         splitName = renamedFileName.split(path.extname(originalName))
@@ -95,8 +129,8 @@ upload(req, res, function (err) {
 });
 
 const ChildProcessScript = function(fileName,stems){
-  console.log("fileName :: "+ fileName  +" :: stems :: "+stems)
-  spleeter_cmd = "python -m spleeter separate -i spleeter/songs/"+ fileName +" -p spleeter:"+stems+"stems -o public/multitrack"
+  //console.log("fileName :: "+ fileName  +" :: stems :: "+stems)
+  //spleeter_cmd = "python -m spleeter separate -i spleeter/songs/"+ fileName +" -p spleeter:"+stems+"stems -o public/multitrack"
 
   /*const ls = exec(spleeter_cmd, function (error, stdout, stderr) {
     if (error) {
@@ -173,7 +207,7 @@ router.get("/checkOutputFolder", async (req, res) => {
 
 router.get("/deleteUploadedSong", async (req, res) => {
   const name = req.query.name;
-  const filePath = "./spleeter/songs/"+name;
+  const filePath = "./public/songs/"+name;
   fs.access(filePath, error => {
     if (!error) {
         fs.unlinkSync(filePath);

@@ -177,7 +177,9 @@ function init(){
                     clearInterval(myVar);
                     document.getElementById("playerInfo").classList.remove('hidden');
                     $("#musicUrl").attr("src", "/mt5Player?name="+data.name);
-                    $('#guitarUrl').attr("src","https://wasabi.i3s.unice.fr/dynamicPedalboard/?bank=Blues&preset=Michel1");
+                    //$('#guitarUrl').attr("src","https://wasabi.i3s.unice.fr/dynamicPedalboard/?bank=Blues&preset=Michel1");
+                    
+                    //$('#guitarUrl').attr("src","https://mainline.i3s.unice.fr/Wasabi-Pedalboard/#");
 
                     clearInterval(interval);
                     getTracks(data.name);

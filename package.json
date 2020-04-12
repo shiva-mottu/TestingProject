@@ -20,6 +20,7 @@
     "fs-extra": "^8.1.0",
     "multer": "^1.4.2",
     "path": "^0.12.7",
-    "youtube-dl": "^3.0.2"
+    "youtube-dl": "^3.0.2",
+    "ytdl-core": "^2.0.1"
   }
 }
