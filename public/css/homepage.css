@@ -1,11 +1,10 @@
 .boxStyles {
-    background: linear-gradient(90deg, rgba(82, 72, 87, 0.62) 30%, rgba(95, 99, 106, 0.57) 43%, rgba(92,81,81,0.8491771708683473) 73%, rgba(87, 79, 97, 0.81) 84%, rgba(85, 79, 103, 0.82) 88%, rgba(79,77,121,1) 100%, rgba(252,176,69,1) 100%);
-    border: 2px solid #b5a7abe0;
+    border: 2px solid #93afb9e3;
     font-weight: 500;
     margin: 20px;
 }
 body{
-    background: radial-gradient(circle, rgba(155,133,148,1) 0%, rgba(162,138,150,1) 16%, rgba(161,158,142,1) 71%, rgba(179,150,156,1) 100%);
+    background-image: linear-gradient(to right, #52676dfc 15%, #445365f2 40%,#25303cf2 75%);
     color:white;
 }
 

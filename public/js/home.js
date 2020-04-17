@@ -108,7 +108,8 @@ function init(){
                 $("<li>"+songName+"<img class='deleteMe' src='img/delete.png' style='width: 26px; '> </li>").appendTo(s);
             });
 
-            $(".deleteMe").on("click", function() {
+        
+            $(".deleteMe").click(function() {
                 if (confirm('Are you sure to delete?')) {
                 
                   var trackName = $(this).closest("li").text();
