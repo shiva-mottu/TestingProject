@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:image" content="https://raw.githubusercontent.com/naomiaro/waveform-playlist/master/img/stemtracks.png">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/naomiaro/waveform-playlist/master/img/stemtracks.png">
   <meta property="og:image:height" content="401">
   <meta property="og:image:width" content="1039">
 
   <title>Music Player</title>
-  <meta name="description" content="Waveform Playlist, the multitrack javascript web audio editor and player. Set audio cue in and cue out. Set linear, exponential, logarithmic, and s-curve fades. Shift audio in time. Zoom in and zoom out on the waveform. Play, stop, pause and seek inside the audio tracks.">
+  <meta name="description"
+    content="Waveform Playlist, the multitrack javascript web audio editor and player. Set audio cue in and cue out. Set linear, exponential, logarithmic, and s-curve fades. Shift audio in time. Zoom in and zoom out on the waveform. Play, stop, pause and seek inside the audio tracks.">
   <link rel="shortcut icon" href="../img/favicon.ico">
 
   <link rel="stylesheet" href="../waveform/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="../waveform/css/main.css">
   <link rel="canonical" href="https://naomiaro.github.io/waveform-playlist/web-audio-editor.html">
-  <link rel="alternate" type="application/rss+xml" title="Waveform Playlist" href="https://naomiaro.github.io/waveform-playlist/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Waveform Playlist"
+    href="https://naomiaro.github.io/waveform-playlist/feed.xml">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style>
     .playlist-top-bar {
       padding: 10px;
@@ -26,117 +33,124 @@
       border-radius: 20px;
       box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.17);
     }
-    #playlist{
+
+    #playlist {
       border: 3px solid #928989;
       margin-top: 15px;
       border-radius: 20px;
       box-shadow: 5px 10px 18px #888888;
     }
+    
   </style>
 </head>
 
 
-  <body>
+<body>
 
-<div class="container">
-  <div class="wrapper">
-    <article class="post">
-      <header class="post-header">
-        <h2 class="post-title">Music Player</h2> 
-      </header>
-      <div class="post-content">
-        <div id="top-bar" class="playlist-top-bar">
-  <div class="playlist-toolbar">
-    <div class="btn-group">
-      <span class="btn-rewind btn btn-success">
-        <i class="fa fa-fast-backward"></i>
-      </span>
+  <div class="container">
+    <div class="wrapper">
+      <article class="post">
+        <header class="post-header">
+          <h2 class="post-title">Music Player</h2>
+        </header>
+        <div class="post-content">
+          <div id="top-bar" class="playlist-top-bar">
+            <div class="playlist-toolbar">
+              <div class="btn-group">
+                <span class="btn-rewind btn btn-success">
+                  <i class="fa fa-fast-backward"></i>
+                </span>
 
-      <span class="btn-stop btn btn-danger">
-        <i class="fa fa-stop"></i>
-      </span>
-      
-      <span class="btn-play btn btn-success">
-        <i class="fa fa-play"></i>
-      </span>
+                <span class="btn-stop btn btn-danger">
+                  <i class="fa fa-stop"></i>
+                </span>
 
-      <span class="btn-pause btn btn-primary">
-        <i class="fa fa-pause"></i>
-      </span>
-      
-      <span class="btn-fast-forward btn btn-success">
-        <i class="fa fa-fast-forward"></i>
-      </span>
+                <span class="btn-play btn btn-success">
+                  <i class="fa fa-play"></i>
+                </span>
 
-    </div>
-    <div class="btn-group">
-      <span title="zoom in" class="btn-zoom-in btn btn-default">
-        <i class="fa fa-search-plus"></i>
-      </span>
-      <span title="zoom out" class="btn-zoom-out btn btn-default">
-        <i class="fa fa-search-minus"></i>
-      </span>
-    </div>
-    <div class="btn-group btn-playlist-state-group">
-      <span class="btn-cursor btn btn-default active" title="select cursor">
-        <i class="fa fa-headphones"></i>
-      </span>
-      <span class="btn-select btn btn-default" title="select audio region">
-        <i class="fa fa-italic"></i>
-      </span>
+                <span class="btn-pause btn btn-primary">
+                  <i class="fa fa-pause"></i>
+                </span>
 
-    </div>
-    <div class="btn-group btn-select-state-group" >
-      <span class="btn-loop btn btn-info disabled" title="loop a selected segment of audio">
-        <i class="fa fa-repeat"></i>
-      </span>
-    </div>
-    <div class="btn-group btn-select-state-group">
-        <label class="audio-pos">00:00:00.0</label>
+                <span class="btn-fast-forward btn btn-success">
+                  <i class="fa fa-fast-forward"></i>
+                </span>
+
+              </div>
+              <div class="btn-group">
+                <span title="zoom in" class="btn-zoom-in btn btn-default">
+                  <i class="fa fa-search-plus"></i>
+                </span>
+                <span title="zoom out" class="btn-zoom-out btn btn-default">
+                  <i class="fa fa-search-minus"></i>
+                </span>
+              </div>
+              <div class="btn-group btn-playlist-state-group">
+                <span class="btn-cursor btn btn-default active" title="select cursor">
+                  <i class="fa fa-headphones"></i>
+                </span>
+                <span class="btn-select btn btn-default" title="select audio region">
+                  <i class="fa fa-italic"></i>
+                </span>
+
+              </div>
+              <div class="btn-group btn-select-state-group">
+                <span class="btn-loop btn btn-info disabled" title="loop a selected segment of audio">
+                  <i class="fa fa-repeat"></i>
+                </span>
+              </div>
+              <div class="btn-group btn-select-state-group">
+                <label class="audio-pos">00:00:00.0</label>
+              </div>
+            </div>
+          </div>
+          <div id="playlist"></div>
+          <div class="playlist-bottom-bar">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="master-gain">Master Volume</label>
+                <input type="range" min="0" max="100" value="100" class="master-gain form-control" id="master-gain">
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" class="automatic-scroll"> Automatic Scroll
+                </label>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </article>
     </div>
   </div>
-</div>
-<div id="playlist"></div>
-<div class="playlist-bottom-bar">
-  <form class="form-inline">
-    <div class="form-group">
-      <label for="master-gain">Master Volume</label>
-      <input type="range" min="0" max="100" value="100" class="master-gain form-control" id="master-gain">
-    </div>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="automatic-scroll"> Automatic Scroll
-      </label>
-    </div>
-  </form>
-</div>
-
-      </div>
-    </article>
+  <div class="container-fluid"> 
+    <iframe id="if1" width="100%" height="450" style="visibility:visible" target="_parent" src="https://mainline.i3s.unice.fr/Wasabi-Pedalboard/#"></iframe>
   </div>
-</div>
 
-<script type="text/javascript" src="../waveform/js/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="../waveform/js/waveform-playlist.var.js"></script>
-<script type="text/javascript" src="../waveform/js/player.js"></script>
-<script type="text/javascript" src="../waveform/js/emitter.js"></script>
+  <script type="text/javascript" src="../waveform/js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="../waveform/js/waveform-playlist.var.js"></script>
+  <script type="text/javascript" src="../waveform/js/player.js"></script>
+  <script type="text/javascript" src="../waveform/js/emitter.js"></script>
 
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-62186746-1', 'auto');
-      ga('send', 'pageview');
+    ga('create', 'UA-62186746-1', 'auto');
+    ga('send', 'pageview');
 
-    </script>
+  </script>
 
-<script>
+  <script>
     var name = "<%= name %>";
     WebAudioSongName(name);
-</script>
-  </body>
+  </script>
+</body>
 
 </html>
