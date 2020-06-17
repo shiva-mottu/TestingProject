@@ -12,7 +12,8 @@ select to stem size
 	Vocals / drums / bass / other separation (4 stems).
 	Vocals / drums / bass / piano / other separation (5 stems).
 Separate .wav tracks.
-They can plug their guitar or midi keyboard on their computer, and without any installation, just with the WebApp, play over the song to work.
+They can plug their guitar or midi keyboard on their computer, and without any installation, 
+just with the WebApp, play over the song to work.
 ```
 ## Quick start 
 
